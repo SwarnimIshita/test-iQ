@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Analysis Dashboard</title>
+  <style>
+    :root {
+      --bg: #181c24;
+      --text: #f5f7fa;
+      --card: #232a36;
+      --accent: #00e676;
+      --danger: #ff1744;
+      --muted: #888;
+      --border: #2c3442;
+    }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem 1rem 2rem;
+      background: var(--card);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+    #theme-toggle {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    #theme-toggle:hover {
+      background: var(--border);
+    }
+    #category-nav {
+      display: flex;
+      gap: 1.2rem;
+      margin: 1.2rem 0 0.5rem 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cat-btn {
+      background: var(--card);
+      color: var(--text);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+      outline: none;
+    }
+    .cat-btn.active, .cat-btn:focus {
+      background: var(--accent);
+      color: #222;
+      border: 2px solid var(--accent);
+    }
+    .dashboard-controls {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    #asset-filter {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      background: var(--card);
+      color: var(--text);
+      outline: none;
+      transition: border 0.2s;
+    }
+    #asset-filter:focus {
+      border: 1.5px solid var(--accent);
+    }
+    #asset-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .asset-card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+      padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+      border: 2px solid var(--border);
+    }
+    .asset-card:hover {
+      box-shadow: 0 6px 24px rgba(0,230,118,0.10);
+      transform: translateY(-4px) scale(1.02);
+      border: 2px solid var(--accent);
+    }
+    .asset-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+    .asset-symbol {
+      color: var(--accent);
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+    .asset-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.3rem 1.2rem;
+      font-size: 1rem;
+      color: var(--text);
+    }
+    .asset-chart {
+      margin-top: 0.7rem;
+      width: 100%;
+      background: var(--bg);
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(30,144,255,0.04);
+      display: block;
+    }
+    @media (max-width: 900px) {
+      #asset-list { grid-template-columns: 1fr; padding: 1rem; }
+      .asset-card { padding: 1rem; }
+    }
+    @media (max-width: 600px) {
+      header { flex-direction: column; gap: 1rem; padding: 1rem; }
+      #category-nav { gap: 0.5rem; }
+      .asset-header { font-size: 1rem; }
+      .asset-metrics { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Crypto Analysis Dashboard</h1>
+    <button id="theme-toggle" aria-label="Toggle dark/light mode">☀️ Light</button>
+  </header>
+  <nav id="category-nav" aria-label="Asset categories"></nav>
+  <div class="dashboard-controls">
+    <input id="asset-filter" type="text" placeholder="Filter by name or symbol..." aria-label="Filter assets" />
+  </div>
+  <section id="asset-list" aria-label="Asset list"></section>
+  <script src="crpypto.js"></script>
+</body>
+</html>
