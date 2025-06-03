@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3x3 Memory Matching Game</title>
+  <style>
+    :root {
+      --tile-size: 90px;
+      --tile-gap: 14px;
+      --bg: #f7f7fa;
+      --board-bg: #fff;
+      --primary: #1e90ff;
+      --accent: #ffb347;
+      --success: #77dd77;
+      --shadow: 0 4px 24px rgba(30,144,255,0.08);
+    }
+    body {
+      background: var(--bg);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    h1 {
+      color: var(--primary);
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+    #category-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cat-btn {
+      background: var(--accent);
+      color: #222;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      outline: none;
+    }
+    .cat-btn.active, .cat-btn:focus {
+      background: var(--primary);
+      color: #fff;
+    }
+    .game-stats {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1.2rem;
+      font-size: 1.1rem;
+      color: #444;
+      justify-content: center;
+    }
+    #memory-board {
+      background: var(--board-bg);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: repeat(3, var(--tile-size));
+      grid-template-rows: repeat(3, var(--tile-size));
+      gap: var(--tile-gap);
+      padding: var(--tile-gap);
+      margin-bottom: 2rem;
+      justify-content: center;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+    .memory-tile {
+      width: var(--tile-size);
+      height: var(--tile-size);
+      background: #eee;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      user-select: none;
+      outline: none;
+      border: 2px solid transparent;
+    }
+    .memory-tile:focus {
+      border: 2px solid var(--primary);
+    }
+    .memory-tile.revealed {
+      background: var(--success);
+      color: #222;
+      transform: scale(1.07);
+      box-shadow: 0 4px 16px rgba(30,144,255,0.12);
+    }
+    @media (max-width: 600px) {
+      :root {
+        --tile-size: 60px;
+        --tile-gap: 8px;
+      }
+      h1 { font-size: 1.3rem; }
+      .game-stats { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>3x3 Memory Matching Game</h1>
+  <div id="category-bar" aria-label="Item categories"></div>
+  <div class="game-stats">
+    <span id="score">Score: 0</span>
+    <span id="turns">Turns: 0</span>
+  </div>
+  <div id="memory-board" aria-label="Memory game board" role="grid"></div>
+  <script src="game.js"></script>
+</body>
+</html>
