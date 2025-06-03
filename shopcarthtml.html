@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Shopping Cart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e90ff;
+      --secondary: #ff9800;
+      --accent: #00e676;
+      --danger: #ff1744;
+      --bg: #f5f7fa;
+      --card-bg: #fff;
+      --text: #222;
+      --muted: #888;
+      --border: #e0e0e0;
+      --shadow: 0 4px 24px rgba(30,144,255,0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    nav button.active, nav button:focus {
+      background: var(--secondary);
+      outline: 2px solid var(--accent);
+    }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 2rem;
+      justify-content: center;
+      min-height: 80vh;
+    }
+    .products, .cart {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      min-width: 320px;
+      max-width: 400px;
+      flex: 1 1 350px;
+      margin-bottom: 2rem;
+      transition: box-shadow 0.3s;
+    }
+    .products {
+      animation: fadeInLeft 0.7s;
+    }
+    .cart {
+      animation: fadeInRight 0.7s;
+    }
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .product-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .product {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .product:hover {
+      box-shadow: 0 4px 16px rgba(30,144,255,0.12);
+      transform: translateY(-4px) scale(1.03);
+    }
+    .product img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 0.5rem;
+    }
+    .product h3 {
+      font-size: 1.1rem;
+      margin: 0.5rem 0 0.2rem 0;
+      text-align: center;
+    }
+    .product p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0.2rem 0 0.7rem 0;
+      text-align: center;
+    }
+    .product .price {
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .product button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      font-weight: 700;
+    }
+    .product button:active {
+      background: var(--secondary);
+      transform: scale(0.97);
+    }
+    .cart h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      color: var(--primary);
+    }
+    .cart-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem 0;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 0.5rem;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-item .item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-item .item-title {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    .cart-item .item-category {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .cart-item .item-qty {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .cart-item button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.2rem 0.6rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .cart-item button:active {
+      background: var(--danger);
+    }
+    .cart-total {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--secondary);
+      margin-bottom: 1rem;
+    }
+    .checkout-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .checkout-btn:active {
+      background: var(--accent);
+    }
+    @media (max-width: 900px) {
+      main { flex-direction: column; align-items: center; }
+      .products, .cart { max-width: 100%; }
+    }
+    @media (max-width: 600px) {
+      header { flex-direction: column; gap: 1rem; }
+      main { padding: 1rem; }
+      .products, .cart { padding: 1rem; }
+      .product-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ShopSmart Cart</h1>
+    <nav aria-label="Product categories">
+      <button class="category-btn active" data-category="Electronics" aria-pressed="true">Electronics</button>
+      <button class="category-btn" data-category="Fashion" aria-pressed="false">Fashion</button>
+      <button class="category-btn" data-category="Home" aria-pressed="false">Home</button>
+      <button class="category-btn" data-category="Books" aria-pressed="false">Books</button>
+    </nav>
+  </header>
+  <main>
+    <section class="products" aria-labelledby="products-heading">
+      <h2 id="products-heading">Products</h2>
+      <div class="product-list" id="product-list" role="list"></div>
+    </section>
+    <aside class="cart" aria-labelledby="cart-heading">
+      <h2 id="cart-heading">Your Cart</h2>
+      <ul class="cart-list" id="cart-list" role="list"></ul>
+      <div class="cart-total" id="cart-total">Total: $0.00</div>
+      <button class="checkout-btn" id="checkout-btn" aria-label="Proceed to checkout">Checkout</button>
+    </aside>
+  </main>
+  <script src="shopping_cart.js"></script>
+</body>
+</html>
